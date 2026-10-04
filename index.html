@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumithara's Birthday Surprise</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0f0c1b; font-family: Arial, sans-serif; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; color: #fff; }
+        .app-container { text-align: center; width: 90%; max-width: 450px; background: rgba(255, 255, 255, 0.05); padding: 45px 30px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .stage { display: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; }
+        #stage1.active, #stage2.active, #stage3.active, #stage4.active { display: flex !important; }
+        .btn { background: #ff4757; color: white; border: none; padding: 14px 35px; font-size: 1.1rem; font-weight: bold; border-radius: 30px; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); margin-top: 40px; transition: 0.2s; }
+        .btn:hover { transform: translateY(-2px); background: #ff6b81; }
+        .box-container { position: relative; width: 170px; height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+        .gift-bow-wrapper { position: relative; width: 60px; height: 30px; margin-bottom: -2px; z-index: 10; }
+        .bow-loop-left, .bow-loop-right { position: absolute; width: 32px; height: 32px; border: 7px solid #e74c3c; border-radius: 50% 50% 0 50%; top: -5px; }
+        .bow-loop-left { left: 0; transform: rotate(-15deg); }
+        .bow-loop-right { right: 0; transform: scaleX(-1) rotate(-15deg); }
+        .bow-center-knot { position: absolute; left: 50%; top: 8px; transform: translateX(-50%); width: 14px; height: 14px; background: #ff6b6b; border: 2px solid #e74c3c; border-radius: 50%; }
+        .gift-lid-box { width: 170px; height: 25px; background: #16a085; border-radius: 6px; position: relative; z-index: 5; box-shadow: 0 4px 5px rgba(0,0,0,0.2); }
+        .gift-body-box { width: 150px; height: 105px; background: #1abc9c; border-radius: 0 0 10px 10px; position: relative; z-index: 1; box-shadow: 0 10px 20px rgba(0,0,0,0.3); margin-top: -2px; }
+        .ribbon-vertical { position: absolute; left: 50%; transform: translateX(-50%); width: 26px; height: 100%; background: #e74c3c; }
+        .ribbon-horizontal { position: absolute; top: 40px; width: 100%; height: 26px; background: #e74c3c; }
+        .cake-container { position: relative; width: 190px; height: 140px; display: flex; align-items: flex-end; justify-content: center; }
+        .cake-body { width: 180px; height: 95px; background: #f1c40f; border-radius: 15px 15px 5px 5px; position: relative; box-shadow: inset 0 -10px 0 #d4ac0d, 0 10px 20px rgba(0,0,0,0.3); }
+        .cream-top-layer { position: absolute; top: 0; width: 100%; height: 22px; background: #ffffff; border-radius: 15px 15px 0 0; }
+        .cream-middle-layer { position: absolute; top: 45px; width: 100%; height: 12px; background: #e74c3c; }
+        .candle-stick { width: 10px; height: 42px; background: repeating-linear-gradient(45deg, #2ecc71, #2ecc71 5px, #fff 5px, #fff 10px); position: absolute; top: -42px; left: 50%; transform: translateX(-50%); border-radius: 3px 3px 0 0; }
+        .candle-flame-fire { width: 14px; height: 24px; background: radial-gradient(ellipse at bottom, #ffea00 0%, #ff6a00 100%); border-radius: 50% 50% 35% 35%; position: absolute; top: -25px; left: -2px; animation: fireFlicker 0.1s infinite alternate; box-shadow: 0 0 15px #ff9f43; }
+        @keyframes fireFlicker { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
+        .cutting-knife { font-size: 3rem; position: absolute; top: -65px; left: 15px; animation: smoothCut 2s infinite ease-in-out; z-index: 10; }
+        @keyframes smoothCut { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 40% { transform: translate(50px, -10px) rotate(-35deg); } 60% { transform: translate(60px, 35px) rotate(10deg); } }
+        .name-glow { font-size: 3.5rem; color: #fdcb6e; text-shadow: 0 0 20px rgba(253, 203, 110, 0.9); font-weight: bold; letter-spacing: 4px; margin-bottom: 15px; }
+        .balloon { position: absolute; bottom: -80px; width: 48px; height: 62px; border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; animation: floatUpAnimation 5s linear forwards; z-index: 99; }
+        @keyframes floatUpAnimation { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-125vh) rotate(25deg); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <audio id="birthdayAudio" loop>
+        <source src="https://soundhelix.com" type="audio/mp3">
+    </audio>
+
+    <div class="app-container">
+        <div class="stage active" id="stage1">
+            <div class="box-container">
+                <div class="gift-bow-wrapper"><div class="bow-loop-left"></div><div class="bow-center-knot"></div><div class="bow-loop-right"></div></div>
+                <div class="gift-lid-box"><div class="ribbon-vertical"></div></div>
+                <div class="gift-body-box"><div class="ribbon-vertical"></div><div class="ribbon-horizontal"></div></div>
+            </div>
+            <button class="btn" onclick="goToStage2()">Remove Ribbon 🎁</button>
+        </div>
+        <div class="stage" id="stage2">
+            <div class="cake-container">
+                <div class="cake-body"><div class="cream-top-layer"></div><div class="cream-middle-layer"></div><div class="candle-stick"><div class="candle-flame-fire"></div></div></div>
+            </div>
+            <button class="btn" onclick="goToStage3()">Blow Candle 🎂</button>
+        </div>
+        <div class="stage" id="stage3">
+            <div class="cake-container">
+                <div class="cutting-knife">🔪</div>
+                <div class="cake-body"><div class="cream-top-layer"></div><div class="cream-middle-layer"></div><div class="candle-stick" style="background:#555;"></div></div>
+            </div>
+            <button class="btn" onclick="goToStage4()">Cut Cake</button>
+        </div>
+        <div class="stage" id="stage4">
+            <h1 class="name-glow">SUMITHARA</h1>
+            <h2 style="color: #ff4757; font-size: 1.6rem; font-weight: bold;">🎉 Happy Birthday! 🎉</h2>
+            <button class="btn" onclick="moreBalloons()" style="margin-top: 30px;">Burst More Balloons! 🎈</button>
+        </div>
+    </div>
+
+    <script>
+        function playMusic() {
+            var audio = document.getElementById('birthdayAudio');
+            audio.play().catch(function(error) { console.log("Audio play blocked."); });
+        }
+        function goToStage2() { playMusic(); document.getElementById('stage1').classList.remove('active'); document.getElementById('stage2').classList.add('active'); }
+        function goToStage3() { document.getElementById('stage2').classList.remove('active'); document.getElementById('stage3').classList.add('active'); }
+        function goToStage4() { document.getElementById('stage3').classList.remove('active'); document.getElementById('stage4').classList.add('active'); startBalloons(); }
+        function startBalloons() { setInterval(createBalloon, 300); }
+        function moreBalloons() { for(let i = 0; i < 20; i++) { setTimeout(createBalloon, i * 70); } }
+        function createBalloon() {
+            const balloon = document.createElement('div'); balloon.classList.add('balloon');
+            const colors = ['#ff4757', '#2ed573', '#1e90ff', '#ffa502', '#9b59b6', '#ff6b81'];
+            balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.left = (Math.random() * 90) + 'vw'; balloon.style.animationDuration = (Math.random() * 2 + 4) + 's';
+            document.body.appendChild(balloon); setTimeout(() => { balloon.remove(); }, 5000);
+        }
+    </script>
+</body>
+</html>
